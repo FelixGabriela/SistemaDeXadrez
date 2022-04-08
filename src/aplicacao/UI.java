@@ -1,7 +1,11 @@
 package aplicacao;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import xadrez.Cor;
 import xadrez.PecaXadrez;
+import xadrez.PosicaoXadrez;
 
 public class UI {
 	
@@ -25,6 +29,18 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 				
+	public static PosicaoXadrez lerPosicaoXadrez(Scanner sc) { //esse scanner é instanciado la do programa principal a qual se recebe como argurmento aq
+		try {//evita problema de formato
+			String s = sc.nextLine();
+			char coluna = s.charAt(0); //cria-se a veriavel char coluna recebendo 0, o primeiro caracter do string
+			int linha = Integer.parseInt(s.substring(1)); //recorta o string a partir da posicao 1 e converte o resultado apra inteiro, tendo assim a linha
+			return new PosicaoXadrez(coluna, linha);
+		}
+		catch (RuntimeException e) {
+			throw new InputMismatchException("Erro ao ler a posicao do xadrez. Valido apenas valores de A1 ate H8");
+		}
+	}
+	
 	//logica para imprimir o tabuleiro do jeito preferivel
 	public static void printTabuleiro(PecaXadrez[][] pecas) {
 		for (int i=0; i<pecas.length; i++) { //o .lenght é pois consideramos que a matriz é quadrada
