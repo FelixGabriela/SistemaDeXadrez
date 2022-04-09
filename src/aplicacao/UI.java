@@ -57,6 +57,9 @@ public class UI {
 		System.out.println();
 		System.out.println("Turno: " + partidaXadrez.getTurno());
 		System.out.println("Esperando o jogador: " + partidaXadrez.getJogadorAtual());
+		if (partidaXadrez.getCheck()) { //se estiver em check imprime check
+			System.out.println("CHECK!");
+		}
 	}
 	
 	//logica para imprimir o tabuleiro do jeito preferivel

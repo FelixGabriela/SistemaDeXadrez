@@ -15,6 +15,10 @@ public abstract class PecaXadrez extends Peca{ //essa classe é uma subclasse de 
 	public Cor getCor() { //so se tem o get pois o set modificaria a cor de uma peca, e o get apenas a acessa
 		return cor;
 	}
+	
+	public PosicaoXadrez getPosicaoXadrez (){
+		return PosicaoXadrez.fromPosicao(posicao);
+	}
 
 	protected boolean temPecaOponente(Posicao posicao) { //verifica se existe peca adversaria na posicao
 		PecaXadrez p = (PecaXadrez)getTabuleiro().peca(posicao); //peguei a peça da posicao
