@@ -1,5 +1,8 @@
 package xadrez;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import tabuleiro.Peca;
 import tabuleiro.Posicao;
 import tabuleiro.Tabuleiro;
@@ -12,6 +15,9 @@ public class PartidaXadrez {
 	private int turno;
 	private Cor jogadorAtual;
 	private Tabuleiro tabuleiro;
+	
+	private List<Peca> pecasNoTabuleiro = new ArrayList<>();
+	private List<Peca> pecasCapturadas = new ArrayList<>();
 	
 	public PartidaXadrez(){ //construtor padrão
 		tabuleiro = new Tabuleiro(8, 8); //dimensao do tabuleiro
@@ -60,6 +66,12 @@ public class PartidaXadrez {
 		Peca p = tabuleiro.removePeca(origem); //retirei a peca da posicao de origem
 		Peca pecaCapturada = tabuleiro.removePeca(destino); //remove a posivel peca da posicao do destino, que sera capturada
 		tabuleiro.lugarPeca(p, destino);
+		
+		if (pecaCapturada != null) { //sempre que se fizer um movimento e esse movimento capturada uma peca:
+			pecasNoTabuleiro.remove(pecaCapturada); //retira a peca da lista de peca
+			pecasCapturadas.add(pecaCapturada); //e adiciona na lista de pecas capturada
+		}
+		
 		return pecaCapturada;
 	}
 	
@@ -88,6 +100,7 @@ public class PartidaXadrez {
 	
 	private void novoLugarPeca(char coluna, int linha, PecaXadrez peca) { //metodo que contem as coordenadas do xadrez para colocar peca
 		tabuleiro.lugarPeca(peca, new PosicaoXadrez(coluna, linha).toPosicao());
+		pecasNoTabuleiro.add(peca); //coloca a peca na lista de peca no tabuleiro tambem
 	}
 	
 	private void iniciaPartida() { //metodo responsavel por iniciar partida, colocando as peças no tabuleiro, para iniciar tem que chamar o inicarPartida no construto no comeco do codigo
