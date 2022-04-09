@@ -1,5 +1,6 @@
 package xadrez;
 import tabuleiro.Peca;
+import tabuleiro.Posicao;
 import tabuleiro.Tabuleiro;
 
 public abstract class PecaXadrez extends Peca{ //essa classe é uma subclasse de peca
@@ -15,7 +16,10 @@ public abstract class PecaXadrez extends Peca{ //essa classe é uma subclasse de 
 		return cor;
 	}
 
-
+	protected boolean temPecaOponente(Posicao posicao) { //verifica se existe peca adversaria na posicao
+		PecaXadrez p = (PecaXadrez)getTabuleiro().peca(posicao); //peguei a peça da posicao
+		return p != null && p.getCor() != cor; //testa se é peca do oponente, testando se a cor da peca da posicao é diferente da minha peça
+	}
 	
 		
 }

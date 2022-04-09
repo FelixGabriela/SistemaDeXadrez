@@ -51,25 +51,38 @@ public class UI {
 	public static void printTabuleiro(PecaXadrez[][] pecas) {
 		for (int i=0; i<pecas.length; i++) { //o .lenght é pois consideramos que a matriz é quadrada
 			System.out.print((8-i) + " "); //imprimi-se primeiro o numero da linha
-			
 			for (int j=0; j<pecas.length; j++) {
-				printPeça(pecas[i][j]); //manda imprimir a peca	
+				printPeça(pecas[i][j], false); //manda imprimir a peca, o falso é para nenhuma peca ter o fundo colorido
 			}
 			System.out.println(); //quebra de linha para imprimir a proxima linha
 		}
 		System.out.println("  A B C D E F G H"); //linha para imprimir os dois espaços em branco do canto e depois de a ate h
 	}
 	
+	public static void printTabuleiro(PecaXadrez[][] pecas, boolean [][] possiveisMovimentos) {
+		for (int i=0; i<pecas.length; i++) { 
+			System.out.print((8-i) + " "); 
+			for (int j=0; j<pecas.length; j++) {
+				printPeça(pecas[i][j], possiveisMovimentos[i][j]);
+			}
+			System.out.println(); 
+		}
+		System.out.println("  A B C D E F G H"); 
+	}
+	
 	//metodo auxiliar para imprimir uma peça
-	private static void printPeça(PecaXadrez peca){ 
+	private static void printPeça(PecaXadrez peca, boolean fundo){ 
+		if (fundo) { //se a veriavel for verdadeira muda o fundo da tela
+			System.out.print(ANSI_GREEN_BACKGROUND);
+		}
 		if (peca == null) {
-			System.out.print("-");
+			System.out.print("-" + ANSI_RESET);
 		} else {
 			if (peca.getCor() == Cor.BRANCO) {
 				System.out.print(ANSI_WHITE + peca + ANSI_RESET);
 			}
 			else {
-				System.out.print(ANSI_YELLOW + peca + ANSI_RESET);
+				System.out.print(ANSI_BLUE + peca + ANSI_RESET);
 			}
 		}
 		System.out.print(" ");

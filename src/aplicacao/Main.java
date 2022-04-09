@@ -23,6 +23,9 @@ public class Main {
 				System.out.print("Origem: "); //pedimos para entrar com a posicao de origem
 				PosicaoXadrez origem = UI.lerPosicaoXadrez(sc); 
 				
+				boolean [][] possiveisMovimentos = partidaXadrez.possiveisMovimentos(origem); //imprime possiveis movimentos na tela
+				UI.clearScreen();
+				UI.printTabuleiro(partidaXadrez.getPecas(), possiveisMovimentos); //criou-se uma sobrecarga do print do tabuleiro, é responsavel pro imprimir o tabuleiro com as cores das possiveis posicoes
 				System.out.println();
 				System.out.print("Destino: "); //pedimos para entrar com a posicao de destino
 				PosicaoXadrez destino = UI.lerPosicaoXadrez(sc); 

@@ -28,6 +28,11 @@ public class Posicao {
 		this.coluna = coluna;
 	}
 	
+	public void setValores(int linha, int coluna) {
+		this.linha = linha;
+		this.coluna = coluna;
+	}
+	
 	@Override //criou-se o toString para imprimir a posicao na tela
 	public String toString() {
 		return linha + ", " + coluna; //colocar para imprimir a linha virgula e a coluna

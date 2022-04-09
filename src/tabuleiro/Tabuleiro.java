@@ -60,8 +60,6 @@ public class Tabuleiro {
 		return aux; //ira retornar a peça que foi retirada
 	}
 	
-	
-	
 	private boolean posicaoExiste(int linha, int coluna) {
 		return linha>=0 && linha<linhas && coluna>=0 && coluna<colunas; //condiçao para ver se a posicao existe	
 	}
