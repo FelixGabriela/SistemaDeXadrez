@@ -18,7 +18,7 @@ public class Main {
 		while (true) {
 			try {
 				UI.clearScreen(); //limpa a tela a cada vez que voltar
-				UI.printTabuleiro(partidaXadrez.getPecas()); //funçao que imprime as peças
+				UI.printPartida(partidaXadrez);
 				System.out.println();
 				System.out.print("Origem: "); //pedimos para entrar com a posicao de origem
 				PosicaoXadrez origem = UI.lerPosicaoXadrez(sc); 
