@@ -2,7 +2,7 @@ package xadrez;
 import tabuleiro.Peca;
 import tabuleiro.Tabuleiro;
 
-public class PecaXadrez extends Peca{ //essa classe é uma subclasse de peca
+public abstract class PecaXadrez extends Peca{ //essa classe é uma subclasse de peca
 	
 	private Cor cor;
 
