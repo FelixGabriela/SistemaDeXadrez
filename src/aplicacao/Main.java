@@ -38,6 +38,13 @@ public class Main {
 				if(pecaCapturada != null) { //sempre que se executar um movimento e esse capturar uma peca adiciona na lista de pecas capturadas
 					capturada.add(pecaCapturada);
 				}
+				
+				if (partidaXadrez.getPromocao() != null) { //se for diferente de nulo uma peca sera promovida
+					System.out.println("Digite a letra que gostaria que a peca fosse promovida (B/C/T/Q): ");
+					String type = sc.nextLine();
+					partidaXadrez.substituiPecaPromocao(type);
+				}
+				
 			}
 			catch (ExcecaoXadrez e) { //se acontecer alguma excecao do xadrez:
 				System.out.println(e.getMessage()); //imprime a mensagem na tela

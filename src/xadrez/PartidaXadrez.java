@@ -1,5 +1,6 @@
 package xadrez;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class PartidaXadrez {
 	private boolean check;
 	private boolean checkMate;
 	private PecaXadrez enPassant;
+	private PecaXadrez promocao;
 	
 	private List<Peca> pecasNoTabuleiro = new ArrayList<>();
 	private List<Peca> pecasCapturadas = new ArrayList<>();
@@ -53,6 +55,10 @@ public class PartidaXadrez {
 	
 	public PecaXadrez getEnPassant(){
 		return enPassant;
+	}
+	
+	public PecaXadrez getPromocao() {
+		return promocao;
 	}
 
 	public PecaXadrez[][] getPecas() { //metodo que retorna a peça de xadrez, ele retornara uma matriz de peças de xadrez correspondentes a partida, é um metodo projetado
@@ -85,6 +91,15 @@ public class PartidaXadrez {
 		
 		PecaXadrez pecaMovida = (PecaXadrez)tabuleiro.peca(destino); //peca que se moveu foi a colocada no destino
 		
+		//movimento especial, promocao
+		promocao = null;
+		if (pecaMovida instanceof Peao) {
+			if ((pecaMovida.getCor() == Cor.BRANCO && destino.getLinha() == 0) || (pecaMovida.getCor() == Cor.PRETO && destino.getLinha() == 7)) {
+				promocao = (PecaXadrez)tabuleiro.peca(destino);
+				promocao = substituiPecaPromocao("Q");
+			}
+		}
+		
 		check = (testaCheck(oponente(jogadorAtual))) ? true:false;
 		
 		if (testaCheckMate(oponente(jogadorAtual))) {
@@ -104,6 +119,34 @@ public class PartidaXadrez {
 		
 		return (PecaXadrez) pecaCapturada;
 	}
+	
+	public PecaXadrez substituiPecaPromocao(String type) {
+		if (promocao == null) {
+			throw new IllegalStateException("Não existe peca para ser promovida");
+		}
+		if (!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("Q")) { //para comprar string usa o equals pois string é um tipo classe
+			throw new InvalidParameterException("Peca invalida para prmocao");
+		}
+		
+		Posicao pos = promocao.getPosicaoXadrez().toPosicao(); //remove a peca da posicao 
+		Peca p = tabuleiro.removePeca(pos); //e guarda na variavel p
+		pecasNoTabuleiro.remove(p);
+		
+		PecaXadrez newPeca = newPeca(type, promocao.getCor());
+		tabuleiro.lugarPeca(newPeca, pos);
+		pecasNoTabuleiro.add(newPeca);
+		
+		return newPeca;
+		
+	}
+	
+	private PecaXadrez newPeca(String type, Cor cor) { //metodo para instanciar a peca especifica
+		if (type.equals("B")) return new Bispo(tabuleiro, cor); //se for B instancia um bispo
+		if (type.equals("C")) return new Cavalo(tabuleiro, cor);
+		if (type.equals("T")) return new Torre(tabuleiro, cor);
+		return new Rainha(tabuleiro, cor);
+	}
+	
 	
 	private Peca facaMover(Posicao origem, Posicao destino) {
 		PecaXadrez p = (PecaXadrez)tabuleiro.removePeca(origem); //retirei a peca da posicao de origem
