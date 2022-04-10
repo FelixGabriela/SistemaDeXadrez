@@ -101,6 +101,25 @@ public class PartidaXadrez {
 			pecasNoTabuleiro.remove(pecaCapturada); //retira a peca da lista de peca
 			pecasCapturadas.add(pecaCapturada); //e adiciona na lista de pecas capturada
 		}
+		
+		//movimento especial, roque pequeno
+		if (p instanceof Rei && destino.getColuna() == origem.getColuna() +2) { //duas casas para a direita
+			Posicao origemTorre = new Posicao(origem.getLinha(), origem.getColuna() +3); //posicao de origem
+			Posicao destinoTorre = new Posicao(origem.getLinha(), origem.getColuna() +1); //posicao de destino
+			PecaXadrez torre = (PecaXadrez)tabuleiro.removePeca(origemTorre); //pega a torre  e retira onde ela esta
+			tabuleiro.lugarPeca(torre, destinoTorre); //coloca a torre na posicao de destino dela
+			torre.aumentaContagemMovimento(); //incrementa movimento visto que se moveu
+		}
+		
+		//movimento especial, roque grande
+		if (p instanceof Rei && destino.getColuna() == origem.getColuna() -2) { //duas casas para a esqueda
+			Posicao origemTorre = new Posicao(origem.getLinha(), origem.getColuna() -4); //posicao de origem
+			Posicao destinoTorre = new Posicao(origem.getLinha(), origem.getColuna() -1); //posicao de destino
+			PecaXadrez torre = (PecaXadrez)tabuleiro.removePeca(origemTorre); //pega a torre  e retira onde ela esta
+			tabuleiro.lugarPeca(torre, destinoTorre); //coloca a torre na posicao de destino dela
+			torre.aumentaContagemMovimento(); //incrementa movimento visto que se moveu
+		}
+		
 		return pecaCapturada;
 	}
 	
@@ -113,8 +132,25 @@ public class PartidaXadrez {
 			pecasCapturadas.remove(pecaCapturada);
 			pecasNoTabuleiro.add(pecaCapturada);
 		}
+		
+		//movimento especial, roque pequeno desfazendo
+		if (p instanceof Rei && destino.getColuna() == origem.getColuna() +2) { //duas casas para a direita
+			Posicao origemTorre = new Posicao(origem.getLinha(), origem.getColuna() +3); //posicao de origem
+			Posicao destinoTorre = new Posicao(origem.getLinha(), origem.getColuna() +1); //posicao de destino
+			PecaXadrez torre = (PecaXadrez)tabuleiro.removePeca(destinoTorre); //remove da posicao de destino
+			tabuleiro.lugarPeca(torre, origemTorre); //devolve a torre na posicao de origem
+			torre.diminuiContagemMovimento(); //decrementa
+		}
+				
+		//movimento especial, roque grande desfazendo
+		if (p instanceof Rei && destino.getColuna() == origem.getColuna() -2) { //duas casas para a esqueda
+			Posicao origemTorre = new Posicao(origem.getLinha(), origem.getColuna() -4); //posicao de origem
+			Posicao destinoTorre = new Posicao(origem.getLinha(), origem.getColuna() -1); //posicao de destino
+			PecaXadrez torre = (PecaXadrez)tabuleiro.removePeca(destinoTorre); //remove da posicao de destino
+			tabuleiro.lugarPeca(torre, origemTorre); //devolve a torre na posicao de origem
+			torre.diminuiContagemMovimento(); //decrementa
+		}
 	}
-	
 	
 	private void validaPecaOrigem (Posicao posicao) {
 		if (!tabuleiro.temUmaPeca(posicao)){
@@ -200,7 +236,7 @@ public class PartidaXadrez {
 		novoLugarPeca('B', 1, new Cavalo(tabuleiro, Cor.BRANCO));
 		novoLugarPeca('C', 1, new Bispo(tabuleiro, Cor.BRANCO));
 		novoLugarPeca('D', 1, new Rainha(tabuleiro, Cor.BRANCO));
-		novoLugarPeca('E', 1, new Rei(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('E', 1, new Rei(tabuleiro, Cor.BRANCO, this)); //Ao inves de instanciar o rei passamos a propria partida que se esta, fazemos isso usando a auto referencia this
 		novoLugarPeca('F', 1, new Bispo(tabuleiro, Cor.BRANCO));
 		novoLugarPeca('G', 1, new Cavalo(tabuleiro, Cor.BRANCO));
 		novoLugarPeca('H', 1, new Torre(tabuleiro, Cor.BRANCO));
@@ -217,7 +253,7 @@ public class PartidaXadrez {
 		novoLugarPeca('B', 8, new Cavalo(tabuleiro, Cor.PRETO));
 		novoLugarPeca('C', 8, new Bispo(tabuleiro, Cor.PRETO));
 		novoLugarPeca('D', 8, new Rainha(tabuleiro, Cor.PRETO));
-		novoLugarPeca('E', 8, new Rei(tabuleiro, Cor.PRETO));
+		novoLugarPeca('E', 8, new Rei(tabuleiro, Cor.PRETO, this)); //Ao inves de instanciar o rei passamos a propria partida que se esta, fazemos isso usando a auto referencia this
 		novoLugarPeca('F', 8, new Bispo(tabuleiro, Cor.PRETO));
 		novoLugarPeca('G', 8, new Cavalo(tabuleiro, Cor.PRETO));
 		novoLugarPeca('H', 8, new Torre(tabuleiro, Cor.PRETO)); 
