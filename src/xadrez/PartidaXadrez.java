@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import tabuleiro.Peca;
 import tabuleiro.Posicao;
 import tabuleiro.Tabuleiro;
+import xadrez.pecas.Bispo;
 import xadrez.pecas.Peao;
 import xadrez.pecas.Rei;
 import xadrez.pecas.Torre;
@@ -194,7 +195,9 @@ public class PartidaXadrez {
 	
 	private void iniciaPartida() { //metodo responsavel por iniciar partida, colocando as peças no tabuleiro, para iniciar tem que chamar o inicarPartida no construto no comeco do codigo
 		novoLugarPeca('A', 1, new Torre(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('C', 1, new Bispo(tabuleiro, Cor.BRANCO));
 		novoLugarPeca('E', 1, new Rei(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('F', 1, new Bispo(tabuleiro, Cor.BRANCO));
 		novoLugarPeca('H', 1, new Torre(tabuleiro, Cor.BRANCO));
 		novoLugarPeca('A', 2, new Peao(tabuleiro, Cor.BRANCO));
 		novoLugarPeca('B', 2, new Peao(tabuleiro, Cor.BRANCO));
@@ -205,8 +208,10 @@ public class PartidaXadrez {
 		novoLugarPeca('G', 2, new Peao(tabuleiro, Cor.BRANCO));
 		novoLugarPeca('H', 2, new Peao(tabuleiro, Cor.BRANCO));
 		
-		novoLugarPeca('A', 8, new Torre(tabuleiro, Cor.PRETO)); 
+		novoLugarPeca('A', 8, new Torre(tabuleiro, Cor.PRETO));
+		novoLugarPeca('C', 8, new Bispo(tabuleiro, Cor.PRETO));
 		novoLugarPeca('E', 8, new Rei(tabuleiro, Cor.PRETO));
+		novoLugarPeca('F', 8, new Bispo(tabuleiro, Cor.PRETO));
 		novoLugarPeca('H', 8, new Torre(tabuleiro, Cor.PRETO)); 
 		novoLugarPeca('A', 7, new Peao(tabuleiro, Cor.PRETO));
 		novoLugarPeca('B', 7, new Peao(tabuleiro, Cor.PRETO)); 
