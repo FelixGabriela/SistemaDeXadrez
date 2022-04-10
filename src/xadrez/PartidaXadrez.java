@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import tabuleiro.Peca;
 import tabuleiro.Posicao;
 import tabuleiro.Tabuleiro;
+import xadrez.pecas.Peao;
 import xadrez.pecas.Rei;
 import xadrez.pecas.Torre;
 
@@ -88,7 +89,8 @@ public class PartidaXadrez {
 	}
 	
 	private Peca facaMover(Posicao origem, Posicao destino) {
-		Peca p = tabuleiro.removePeca(origem); //retirei a peca da posicao de origem
+		PecaXadrez p = (PecaXadrez)tabuleiro.removePeca(origem); //retirei a peca da posicao de origem
+		p.aumentaContagemMovimento();
 		Peca pecaCapturada = tabuleiro.removePeca(destino); //remove a posivel peca da posicao do destino, que sera capturada
 		tabuleiro.lugarPeca(p, destino);
 		
@@ -100,9 +102,9 @@ public class PartidaXadrez {
 	}
 	
 	private void desfazMover(Posicao origem, Posicao destino, Peca pecaCapturada) {
-		Peca p = tabuleiro.removePeca(destino);
+		PecaXadrez p = (PecaXadrez)tabuleiro.removePeca(destino);
 		tabuleiro.lugarPeca(p, origem);
-		
+		p.diminuiContagemMovimento();
 		if (pecaCapturada != null) {
 			tabuleiro.lugarPeca(pecaCapturada, destino);
 			pecasCapturadas.remove(pecaCapturada);
@@ -191,11 +193,29 @@ public class PartidaXadrez {
 	}
 	
 	private void iniciaPartida() { //metodo responsavel por iniciar partida, colocando as peças no tabuleiro, para iniciar tem que chamar o inicarPartida no construto no comeco do codigo
-		novoLugarPeca('H', 7, new Torre(tabuleiro, Cor.BRANCO)); 
-		novoLugarPeca('D', 1, new Torre(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('A', 1, new Torre(tabuleiro, Cor.BRANCO));
 		novoLugarPeca('E', 1, new Rei(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('H', 1, new Torre(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('A', 2, new Peao(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('B', 2, new Peao(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('C', 2, new Peao(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('D', 2, new Peao(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('E', 2, new Peao(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('F', 2, new Peao(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('G', 2, new Peao(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('H', 2, new Peao(tabuleiro, Cor.BRANCO));
 		
-		novoLugarPeca('B', 8, new Torre(tabuleiro, Cor.PRETO)); 
-		novoLugarPeca('A', 8, new Rei(tabuleiro, Cor.PRETO));
+		novoLugarPeca('A', 8, new Torre(tabuleiro, Cor.PRETO)); 
+		novoLugarPeca('E', 8, new Rei(tabuleiro, Cor.PRETO));
+		novoLugarPeca('H', 8, new Torre(tabuleiro, Cor.PRETO)); 
+		novoLugarPeca('A', 7, new Peao(tabuleiro, Cor.PRETO));
+		novoLugarPeca('B', 7, new Peao(tabuleiro, Cor.PRETO)); 
+		novoLugarPeca('C', 7, new Peao(tabuleiro, Cor.PRETO));
+		novoLugarPeca('D', 7, new Peao(tabuleiro, Cor.PRETO)); 
+		novoLugarPeca('E', 7, new Peao(tabuleiro, Cor.PRETO));
+		novoLugarPeca('F', 7, new Peao(tabuleiro, Cor.PRETO)); 
+		novoLugarPeca('G', 7, new Peao(tabuleiro, Cor.PRETO));
+		novoLugarPeca('H', 7, new Peao(tabuleiro, Cor.PRETO)); 
+
 	}
 }
