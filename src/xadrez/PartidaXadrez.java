@@ -17,6 +17,7 @@ public class PartidaXadrez {
 	private Cor jogadorAtual;
 	private Tabuleiro tabuleiro;
 	private boolean check;
+	private boolean checkMate;
 	
 	private List<Peca> pecasNoTabuleiro = new ArrayList<>();
 	private List<Peca> pecasCapturadas = new ArrayList<>();
@@ -40,7 +41,12 @@ public class PartidaXadrez {
 	public boolean getCheck() {
 		return check;
 	}
-	
+
+	public boolean getCheckMate() {
+		return checkMate;
+	}
+
+
 	public PecaXadrez[][] getPecas() { //metodo que retorna a peça de xadrez, ele retornara uma matriz de peças de xadrez correspondentes a partida, é um metodo projetado
 		PecaXadrez[][] mat = new PecaXadrez [tabuleiro.getLinhas()] [tabuleiro.getColunas()]; //variavel auxiliar mat que é inciada com a Peca de Xadrez, com a quantidade de linhas e colunas do tabuleiro
 		for (int i=0; i<tabuleiro.getLinhas(); i++) { //percorre as linhas da matriz
@@ -71,7 +77,13 @@ public class PartidaXadrez {
 		
 		check = (testaCheck(oponente(jogadorAtual))) ? true:false;
 		
-		proximoTurno();
+		if (testaCheckMate(oponente(jogadorAtual))) {
+			checkMate = true;
+		} 
+		else {
+			proximoTurno();
+		}
+		
 		return (PecaXadrez) pecaCapturada;
 	}
 	
@@ -148,24 +160,42 @@ public class PartidaXadrez {
 		return false;
 	}
 	
+	private boolean testaCheckMate(Cor cor) {
+		if (!testaCheck(cor)) {
+			return false;
+		}
+		List<Peca> list = pecasNoTabuleiro.stream().filter(x -> ((PecaXadrez)x).getCor() == cor).collect(Collectors.toList());
+		for (Peca p : list) {
+			boolean[][] mat = p.possiveisMovimentos();
+			for (int i=0; i<tabuleiro.getLinhas(); i++) {
+				for (int j=0; j<tabuleiro.getColunas(); j++) {
+					if (mat[i][j]) {
+						Posicao origem = ((PecaXadrez)p).getPosicaoXadrez().toPosicao();
+						Posicao destino = new Posicao(i, j);
+						Peca capturedPiece = facaMover(origem, destino);
+						boolean testaCheck = testaCheck(cor);
+						desfazMover(origem, destino, capturedPiece);
+						if (!testaCheck) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}	
+	
 	private void novoLugarPeca(char coluna, int linha, PecaXadrez peca) { //metodo que contem as coordenadas do xadrez para colocar peca
 		tabuleiro.lugarPeca(peca, new PosicaoXadrez(coluna, linha).toPosicao());
 		pecasNoTabuleiro.add(peca); //coloca a peca na lista de peca no tabuleiro tambem
 	}
 	
 	private void iniciaPartida() { //metodo responsavel por iniciar partida, colocando as peças no tabuleiro, para iniciar tem que chamar o inicarPartida no construto no comeco do codigo
-		novoLugarPeca('C', 1, new Torre(tabuleiro, Cor.BRANCO)); 
-		novoLugarPeca('C', 2, new Torre(tabuleiro, Cor.BRANCO));
-		novoLugarPeca('D', 2, new Torre(tabuleiro, Cor.BRANCO));
-		novoLugarPeca('E', 2, new Torre(tabuleiro, Cor.BRANCO)); 
-		novoLugarPeca('E', 1, new Torre(tabuleiro, Cor.BRANCO));
-		novoLugarPeca('D', 1, new Rei(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('H', 7, new Torre(tabuleiro, Cor.BRANCO)); 
+		novoLugarPeca('D', 1, new Torre(tabuleiro, Cor.BRANCO));
+		novoLugarPeca('E', 1, new Rei(tabuleiro, Cor.BRANCO));
 		
-		novoLugarPeca('C', 7, new Torre(tabuleiro, Cor.PRETO)); 
-		novoLugarPeca('C', 8, new Torre(tabuleiro, Cor.PRETO));
-		novoLugarPeca('D', 7, new Torre(tabuleiro, Cor.PRETO));
-		novoLugarPeca('E', 7, new Torre(tabuleiro, Cor.PRETO)); 
-		novoLugarPeca('E', 8, new Torre(tabuleiro, Cor.PRETO));
-		novoLugarPeca('D', 8, new Rei(tabuleiro, Cor.PRETO));
+		novoLugarPeca('B', 8, new Torre(tabuleiro, Cor.PRETO)); 
+		novoLugarPeca('A', 8, new Rei(tabuleiro, Cor.PRETO));
 	}
 }

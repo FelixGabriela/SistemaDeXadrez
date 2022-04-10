@@ -18,7 +18,7 @@ public class Main {
 		PartidaXadrez partidaXadrez = new PartidaXadrez(); //instancia a partida de xadrez
 		List<PecaXadrez> capturada = new ArrayList<>();
 		
-		while (true) {
+		while (!partidaXadrez.getCheckMate()) {
 			try {
 				UI.clearScreen(); //limpa a tela a cada vez que voltar
 				UI.printPartida(partidaXadrez, capturada); //sempre que se imprimir a partida passa a lista de pecas capturadas
@@ -48,5 +48,7 @@ public class Main {
 				sc.nextLine(); //para o programa aguardar o enter
 			}
 		}
+		UI.clearScreen();
+		UI.printPartida(partidaXadrez, capturada);
 	}
 }
