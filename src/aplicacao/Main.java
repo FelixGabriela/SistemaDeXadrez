@@ -41,8 +41,12 @@ public class Main {
 				
 				if (partidaXadrez.getPromocao() != null) { //se for diferente de nulo uma peca sera promovida
 					System.out.println("Digite a letra que gostaria que a peca fosse promovida (B/C/T/Q): ");
-					String type = sc.nextLine();
-					partidaXadrez.substituiPecaPromocao(type);
+					String type = sc.nextLine().toUpperCase(); //.toUpperCase converte a letra para maiuscula
+					while (!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("Q")) { //enquanto o usuario nao digitar corretamente ira repetir
+						System.out.println("Letra invalida! Digite a letra que gostaria que a peca fosse promovida (B/C/T/Q): ");
+						type = sc.nextLine().toUpperCase();
+					}
+					partidaXadrez.substituiPecaPromocao(type); //manda trocar a peca promovida
 				}
 				
 			}

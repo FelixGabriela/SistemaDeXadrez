@@ -1,6 +1,5 @@
 package xadrez;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -125,22 +124,22 @@ public class PartidaXadrez {
 			throw new IllegalStateException("Não existe peca para ser promovida");
 		}
 		if (!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("Q")) { //para comprar string usa o equals pois string é um tipo classe
-			throw new InvalidParameterException("Peca invalida para prmocao");
+			return promocao;
 		}
 		
 		Posicao pos = promocao.getPosicaoXadrez().toPosicao(); //remove a peca da posicao 
 		Peca p = tabuleiro.removePeca(pos); //e guarda na variavel p
 		pecasNoTabuleiro.remove(p);
 		
-		PecaXadrez newPeca = newPeca(type, promocao.getCor());
-		tabuleiro.lugarPeca(newPeca, pos);
-		pecasNoTabuleiro.add(newPeca);
+		PecaXadrez novaPeca = novaPeca(type, promocao.getCor());
+		tabuleiro.lugarPeca(novaPeca, pos);
+		pecasNoTabuleiro.add(novaPeca);
 		
-		return newPeca;
+		return novaPeca;
 		
 	}
 	
-	private PecaXadrez newPeca(String type, Cor cor) { //metodo para instanciar a peca especifica
+	private PecaXadrez novaPeca(String type, Cor cor) { //metodo para instanciar a peca especifica
 		if (type.equals("B")) return new Bispo(tabuleiro, cor); //se for B instancia um bispo
 		if (type.equals("C")) return new Cavalo(tabuleiro, cor);
 		if (type.equals("T")) return new Torre(tabuleiro, cor);
